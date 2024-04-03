@@ -3,7 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use App\Models\Admin;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,13 +18,22 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AdminSeeder::class
+            WebConfigSeeder::class,
+            PermissionSeeder::class
         ]);
-        // \App\Models\User::factory(10)->create();
+        $admin = Admin::create([
+            'name' => 'Admin Manager',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('Admin@123')
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $role = Role::create(['name' => 'Admin','guard_name' => 'admin']);
+
+        $permissions = Permission::pluck('id', 'id')->all();
+
+        $role->syncPermissions($permissions);
+
+        $admin->assignRole([$role->id]);
+
     }
 }

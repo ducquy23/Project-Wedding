@@ -325,3 +325,8 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script src="/admin/vendor/chart.js/Chart.min.js"></script>
+    <script src="/admin/js/demo/chart-area-demo.js"></script>
+    <script src="/admin/js/demo/chart-pie-demo.js"></script>
+@endpush

@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens,HasRoles;
 
     protected $table = 'admins';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'username',
+        'name',
         'email',
         'password',
         'avatar',
@@ -36,5 +38,6 @@ class Admin extends Authenticatable
         'password',
         'remember_token'
     ];
+
 
 }

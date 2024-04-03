@@ -9,7 +9,7 @@ class WebConfig extends Model
 {
     use HasFactory;
 
-    protected $table = 'web_config';
+    protected $table = 'web_configs';
 
     protected $primaryKey = 'id';
 

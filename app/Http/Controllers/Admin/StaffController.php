@@ -2,19 +2,32 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PaginationEnum;
 use App\Http\Controllers\Controller;
-use App\Models\WebConfig;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class StaffController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $config = WebConfig::query()->find(1);
-        return view('admin.index',compact('config'));
+        $query = Admin::query();
+        // tìm kiếm
+        if($request->has('search')) {
+            $search = $request->input('search') ?? '';
+            $query->where('name','like', '%' . $search . '%');
+        }
+        // lọc theo status
+        if ($request->has('status')) {
+         $status = $request->input('status') ?? 1;
+         $query->where('status',$status);
+        }
+        $listStaff = $query->orderBy('id','DESC')->paginate(PaginationEnum::PER_PAGE);
+
+        return view('admin.staff.list',compact('listStaff'));
     }
 
     /**

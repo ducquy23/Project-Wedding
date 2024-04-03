@@ -14,8 +14,8 @@ class WebConfigSeeder extends Seeder
     {
         \App\Models\WebConfig::create([
             'name' => 'Công ty Tinasoft Việt Nam',
-            'email' => 'logo',
-            'password' => bcrypt('Admin@123'),
+            'logo' => '/images/logo.png',
+            'zalo' => '0974388461',
         ]);
     }
 }

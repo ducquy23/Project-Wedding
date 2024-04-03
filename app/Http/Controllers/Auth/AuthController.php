@@ -45,9 +45,11 @@ class AuthController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function logout(Request $request)
     {
-        //
+        Auth::guard('admin')->logout();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.login');
     }
 
     /**

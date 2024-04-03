@@ -8,14 +8,14 @@
     <meta name="author" content="">
     <title>SB Admin 2 - Dashboard</title>
     <!-- Custom fonts for this template-->
-    <link href="/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/admin/vendor/fontawesome-free/css/all.min.css?ver{{ config('app.version') }}" rel="stylesheet" type="text/css">
     <link
         href="/admin/fonts/font_admin.css?ver={{ config('app.version') }}"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="/admin/css/sb_admin_2.min.css" rel="stylesheet">
-
+    @stack('styles')
 </head>
 
 <body id="page-top">
@@ -75,13 +75,9 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/admin/js/sb_admin_2.min.js"></script>
+@stack('scripts')
 
-<!-- Page level plugins -->
-<script src="/admin/vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="/admin/js/demo/chart-area-demo.js"></script>
-<script src="/admin/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
