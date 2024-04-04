@@ -46,7 +46,6 @@
         <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('staff.list') }}">List Staff</a>
-                <a class="collapse-item" href="buttons.html">Add Staff</a>
             </div>
         </div>
     </li>

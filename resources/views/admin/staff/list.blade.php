@@ -7,8 +7,14 @@
     <h1 class="h3 mb-2 text-gray-800">Nhân viên</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+            <div>
+                <a href="{{ route('staff.add') }}" class="btn btn-success mr-2">Thêm mới nhân viên</a>
+                <a href="" class="mr-3 p-1" title="Thùng rác">
+                    <i class="fa-regular fa-trash-can"></i>
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -25,10 +31,11 @@
                                     </select> entries</label></div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                                                                                      class="form-control form-control-sm"
-                                                                                                      placeholder=""
-                                                                                                      aria-controls="dataTable"></label>
+                            <div id="dataTable_filter" class="dataTables_filter">
+                                <label>
+                                    Search:<input type="search" class="form-control form-control-sm" placeholder=""
+                                                  aria-controls="dataTable">
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -52,7 +59,12 @@
                                         Email
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Age: activate to sort column ascending" style="width: 66.2px;">Avatar
+                                        aria-label="Age: activate to sort column ascending" style="width: 66.2px;">
+                                        Avatar
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                                        aria-label="Age: activate to sort column ascending" style="width: 66.2px;">
+                                        Role
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-label="Start date: activate to sort column ascending"
@@ -70,6 +82,7 @@
                                     <th rowspan="1" colspan="1">Name</th>
                                     <th rowspan="1" colspan="1">Email</th>
                                     <th rowspan="1" colspan="1">avatar</th>
+                                    <th rowspan="1" colspan="1">Role</th>
                                     <th rowspan="1" colspan="1">Status</th>
                                     <th rowspan="1" colspan="1">Action</th>
                                 </tr>
@@ -82,18 +95,39 @@
                                             <td>{{ $value->name }}</td>
                                             <td>{{ $value->email }}</td>
                                             <td class="text-center">
-                                                {!! app('Helper')->showUserAvatar($value,'','','width="100"') !!}
+                                                {!! app('Helper')->showUserAvatar($value,'','','width="80"') !!}
                                             </td>
                                             <td>
-                                                @if($value->status == 0)
-                                                    Not Active
-                                                @endif
-                                                @if($value->status == 1)
-                                                    Active
-                                                @endif
+                                                @foreach($value->roles as $role)
+                                                    {{ $role->name }}
+                                                @endforeach
                                             </td>
-                                            <td>
 
+                                            <td class="text-center">
+                                                {{--                                                @if($value->status == 0)--}}
+                                                {{--                                                    Not Active--}}
+                                                {{--                                                @endif--}}
+                                                {{--                                                @if($value->status == 1)--}}
+                                                {{--                                                    Active--}}
+                                                {{--                                                @endif--}}
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="dropdown text-center">
+                                                    <!-- Icon here (e.g., three dots icon) -->
+                                                    <i class="fas fa-ellipsis-v p-2" data-toggle="dropdown"
+                                                       aria-haspopup="true" aria-expanded="false"></i>
+                                                    <div class="dropdown-menu"
+                                                         aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item"
+                                                           href="">Sửa</a>
+                                                        <a class="dropdown-item show_confirm"
+                                                           href="">Xóa</a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -104,40 +138,15 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
-                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1
-                                to 10 of 57 entries
+                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                                Showing {{ $listStaff->firstItem() }} to {{ $listStaff->lastItem() }}
+                                of {{ $listStaff->total() }} entries
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                                 <ul class="pagination">
-                                    <li class="paginate_button page-item previous disabled" id="dataTable_previous"><a
-                                            href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0"
-                                            class="page-link">Previous</a></li>
-                                    <li class="paginate_button page-item active"><a href="#" aria-controls="dataTable"
-                                                                                    data-dt-idx="1" tabindex="0"
-                                                                                    class="page-link">1</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable"
-                                                                              data-dt-idx="2" tabindex="0"
-                                                                              class="page-link">2</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable"
-                                                                              data-dt-idx="3" tabindex="0"
-                                                                              class="page-link">3</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable"
-                                                                              data-dt-idx="4" tabindex="0"
-                                                                              class="page-link">4</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable"
-                                                                              data-dt-idx="5" tabindex="0"
-                                                                              class="page-link">5</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable"
-                                                                              data-dt-idx="6" tabindex="0"
-                                                                              class="page-link">6</a></li>
-                                    <li class="paginate_button page-item next" id="dataTable_next"><a href="#"
-                                                                                                      aria-controls="dataTable"
-                                                                                                      data-dt-idx="7"
-                                                                                                      tabindex="0"
-                                                                                                      class="page-link">Next</a>
-                                    </li>
+                                    {{ $listStaff->links() }}
                                 </ul>
                             </div>
                         </div>

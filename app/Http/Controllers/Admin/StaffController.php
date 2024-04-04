@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PaginationEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StaffRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,8 @@ class StaffController extends Controller
          $status = $request->input('status') ?? 1;
          $query->where('status',$status);
         }
+        $query->with('roles');
         $listStaff = $query->orderBy('id','DESC')->paginate(PaginationEnum::PER_PAGE);
-
         return view('admin.staff.list',compact('listStaff'));
     }
 
@@ -35,13 +36,13 @@ class StaffController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.staff.add');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StaffRequest $request)
     {
         //
     }

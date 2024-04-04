@@ -24,15 +24,25 @@ Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['auth:admin'])->group(function () {
 
         // Auth
-        Route::get('/logout',[AuthController::class,'logout'])->name('admin.logout');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
         // Dashboard
-        Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         // Staff
         Route::prefix('staff')->group(function () {
-            Route::get('/list',[StaffController::class,'index'])->name('staff.list');
+            Route::get('/list', [StaffController::class, 'index'])->name('staff.list');
+            Route::get('/add', [StaffController::class, 'create'])->name('staff.add');
+            Route::post('/add', [StaffController::class, 'store'])->name('staff.addPost');
+
         });
     });
 });
+
+// route không tồn tại sẽ bắn về view này
+Route::fallback(function () {
+    return view('admin.errors.404');
+});
+
+
 
