@@ -38,16 +38,11 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-           aria-expanded="true" aria-controls="collapseThree">
+        <a class="nav-link" href="{{ route('staff.list') }}" aria-expanded="true">
             <i class="fas fa-fw fa-cog"></i>
             <span>Staff</span>
         </a>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('staff.list') }}">List Staff</a>
-            </div>
-        </div>
+
     </li>
 
     <!-- Divider -->

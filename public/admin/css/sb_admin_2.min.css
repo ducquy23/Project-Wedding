@@ -2213,7 +2213,7 @@ textarea.form-control {
 }
 
 .invalid-feedback {
-    display: none;
+    display: block;
     width: 100%;
     margin-top: .25rem;
     font-size: 80%;
@@ -11488,7 +11488,7 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 .fa-trash-can {
-    color: red;
+    color: #ffffff;
     font-size: 20px;
 }
 .fa-trash-can:hover {

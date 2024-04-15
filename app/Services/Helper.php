@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\WebConfig;
+use Illuminate\Support\Facades\Storage;
 
 class Helper
 {
@@ -16,7 +17,7 @@ class Helper
         if (empty($object) || empty($object->avatar)) {
             return '<img id="' . $id . '" class="' . $class . '" src="/images/no-image.png" alt="' . $object->name . '" title="' . $object->name . '" ' . $attr . ' />';
         }
-        return '<img id="' . $id . '" class="' . $class . '" src="' . $object->avatar . '" alt="' . $object->name . '" title="' . $object->name . '" ' . $attr . '/>';
+        return '<img id="' . $id . '" class="' . $class . '" src="' . Storage::url($object->avatar) . '" alt="' . $object->name . '" title="' . $object->name . '" ' . $attr . '/>';
 
     }
 

@@ -27,13 +27,15 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('Admin@123')
         ]);
 
-        $role = Role::create(['name' => 'Admin','guard_name' => 'admin']);
+        $role1 = Role::create(['name' => 'Admin', 'guard_name' => 'admin']);
+        $role2 = Role::create(['name' => 'Sale', 'guard_name' => 'admin']);
+        $role3 = Role::create(['name' => 'Content Manager', 'guard_name' => 'admin']);
 
         $permissions = Permission::pluck('id', 'id')->all();
 
-        $role->syncPermissions($permissions);
+        $role1->syncPermissions($permissions);
 
-        $admin->assignRole([$role->id]);
+        $admin->assignRole([$role1->id]);
 
     }
 }

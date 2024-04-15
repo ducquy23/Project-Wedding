@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->tinyInteger('gender')->default(0)->comment('0: Name | 1: Nữ');
             $table->string('address')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0: Not active | 1: Active');
+            $table->tinyInteger('status')->default(0)->comment('2: Not active | 1: Active');
             $table->timestamp('email_verified_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

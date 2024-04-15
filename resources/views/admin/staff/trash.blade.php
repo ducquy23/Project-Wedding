@@ -8,20 +8,18 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Thùng rác</h6>
             <div>
-                <a href="{{ route('staff.add') }}" class="btn btn-success mr-2">Thêm mới nhân viên</a>
-                <a href="{{ route('staff.trash') }}" class="mr-3 pl-2 pr-2 btn btn-danger" title="Thùng rác">
-                    <i class="fa-regular fa-trash-can m-1"></i>
-                </a>
+                <a href="{{ route('staff.list') }}" class="btn btn-success mr-2">Danh sách Nhân viên</a>
             </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                    <form action="{{ route('staff.list') }}" method="get" id="filterForm">
+                    <form action="{{ route('staff.trash') }}" method="get" id="filterForm">
+
                         <div class="row">
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="dataTable_length">
                                     <label>Show
                                         <select name="show_entries" aria-controls="dataTable"
@@ -35,27 +33,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-4">
-
-                                <div class="dataTables_length" id="dataTable_length">
-                                    <label>Status
-                                        <select name="status" aria-controls="dataTable"
-                                                class="custom-select custom-select-sm form-control"
-                                                onchange="submitForm()">
-                                            <option value="all"
-                                                    @if(!request()->has('status') || request('status') == 'all') selected @endif>
-                                                Tất cả
-                                            </option>
-                                            <option value="1" @if(request('status') == 1) selected @endif>Hoạt động
-                                            </option>
-                                            <option value="2" @if(request('status') == 2) selected @endif>Không hoạt
-                                                động
-                                            </option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-6">
                                 <form action="" method="get">
                                     <div id="dataTable_filter" class="dataTables_filter">
                                         <label>
@@ -96,10 +74,6 @@
                                         Role
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Start date: activate to sort column ascending"
-                                        style="width: 133.2px;">Status
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-label="Salary: activate to sort column ascending" style="width: 120.2px;">
                                         Action
                                     </th>
@@ -117,13 +91,6 @@
                                                     <span> + {{ $role->name }}</span> <br>
                                                 @endforeach
                                             </td>
-                                            <td class="text-center">
-                                                <label class="switch">
-                                                    <input class="switch-status" data-item-id="{{ $value->id }}"
-                                                           type="checkbox" @if($value->status == 1) checked @endif>
-                                                    <span class="slider round "></span>
-                                                </label>
-                                            </td>
                                             <td>
                                                 <div class="dropdown text-center">
                                                     <!-- Icon here (e.g., three dots icon) -->
@@ -132,12 +99,9 @@
                                                     <div class="dropdown-menu"
                                                          aria-labelledby="dropdownMenuButton">
                                                         <a class="dropdown-item"
-                                                           href="">Chi tiết</a>
-                                                        <a class="dropdown-item"
-                                                           href="{{ route('staff.edit',['id' => $value->id]) }}">Sửa</a>
-                                                        <a class="dropdown-item show_confirm"
-                                                           data-name="{{ $value->name }}"
-                                                           href="{{ route('staff.delete',['id' => $value->id]) }}">Xóa</a>
+                                                           href="{{ route('staff.restore',['id' => $value->id]) }}">Khôi phục</a>
+                                                        <a class="dropdown-item show_confirm" data-name="{{ $value->name }}"
+                                                           href="{{ route('staff.permanently-deleted',['id' => $value->id]) }}">Xóa vĩnh viễn</a>
                                                     </div>
                                                 </div>
                                             </td>

@@ -16,11 +16,10 @@
     <!-- Custom styles for this template-->
     <link href="/admin/css/sb_admin_2.min.css?ver={{ config('app.version') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     @stack('styles')
 </head>
-
 <body id="page-top">
-
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -64,10 +63,13 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
+
 <!-- Logout Modal-->
 @include('admin.layouts.logout_modal')
 
 <script src="https://kit.fontawesome.com/d75eab3bb0.js?ver={{ config('app.version') }}" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10?ver={{ config('app.version') }}"></script>
+
 <!-- Bootstrap core JavaScript-->
 <script src="/admin/vendor/jquery/jquery.min.js?ver={{ config('app.version') }}"></script>
 <script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js?ver={{ config('app.version') }}"></script>

@@ -35,10 +35,12 @@ class AuthController extends Controller
                     return redirect()->route('admin.dashboard');
                 }
             }
+
             toastr()->error('Login failed !', 'error');
             return back()->withErrors('email', 'Email và password không chính xác')->onlyInput('email');
         } catch (Exception $e) {
-            dd($e);
+            toastr()->error('You have an error !', 'error');
+            return back();
         }
     }
 
