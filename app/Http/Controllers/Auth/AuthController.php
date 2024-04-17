@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Admin;
+use App\Models\WebConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
 
 class AuthController extends Controller
@@ -57,9 +61,99 @@ class AuthController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function profile(string $id)
     {
-        //
+        try {
+            if (!$id) {
+                toastr()->error('Don\"t exist account !','error');
+                return redirect()->route('admin.login');
+            }
+            $user = Admin::find($id);
+            return view('admin.auth.profile',compact('user'));
+        } catch (Exception $e) {
+            toastr()->error('You have an error !', 'error');
+            return back();
+        }
+
+
+        return view('admin.auth.profile');
+    }
+
+    public function profilePost (string $id,Request $request) {
+        try {
+            $admin = Admin::find($id);
+            if (!$admin) {
+                toastr()->error('Admin not found', 'Failed');
+                return redirect()->back();
+            }
+            $params = $request->except('_token');
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|unique:admins,email,' . $id,
+            ], [
+                'email.unique' => 'The email has already been taken by another admin.'
+            ]);
+            // Kiểm tra validator
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $deletedAvatar = Storage::delete('/public/' . $admin->avatar);
+                if ($deletedAvatar) {
+                    $params['avatar'] = uploadFile('image', $request->file('avatar'));
+
+                } else {
+                    toastr()->error('Delete avatar not successfully', 'Failed');
+                    return redirect()->back();
+                }
+            }
+            $resultUpdate = Admin::where('id', $id)->update($params);
+            if ($resultUpdate) {
+                toastr()->success('Update staff successfully !', 'Sucesss');
+                return redirect()->route('admin.profile',['id' => $id]);
+            } else {
+                toastr()->error('You have an error when update staff !', 'Failed');
+                return redirect()->route('staff.edit', ['id' => $id]);
+            }
+        } catch (Exception $exception) {
+            toastr('Have an error :' . $exception);
+            return redirect()->route('admin.profile',['id' => $id]);
+        }
+    }
+    public function settings() {
+        $config = WebConfig::find(1);
+
+        return view('admin.auth.settings',compact('config'));
+    }
+    public function settingsPost(string $id,Request $request) {
+        try {
+            $config = WebConfig::find($id);
+            if (!$config) {
+                toastr()->error('Config not found', 'Failed');
+                return redirect()->back();
+            }
+            $params = $request->except('_token');
+            if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+                $deletedAvatar = Storage::delete('/public/' . $config->logo);
+                if ($deletedAvatar) {
+                    $params['logo'] = uploadFile('image', $request->file('logo'));
+
+                } else {
+                    toastr()->error('Delete logo not successfully', 'Failed');
+                    return redirect()->back();
+                }
+            }
+            $resultUpdate = WebConfig::where('id', $id)->update($params);
+            if ($resultUpdate) {
+                toastr()->success('Update config successfully !', 'Sucesss');
+                return redirect()->route('admin.settings',['id' => $id]);
+            } else {
+                toastr()->error('You have an error when update config !', 'Failed');
+                return redirect()->route('admin.settings', ['id' => $id]);
+            }
+        } catch (Exception $exception) {
+            toastr('Have an error :' . $exception);
+            return redirect()->route('admin.settings',['id' => $id]);
+        }
     }
 
     /**

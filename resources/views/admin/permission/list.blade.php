@@ -4,14 +4,14 @@
 @endpush
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Nhân viên</h1>
+    <h1 class="h3 mb-2 text-gray-800">Quản lý quyền</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách quyền</h6>
             <div>
-                <a href="{{ route('staff.add') }}" class="btn btn-success mr-2">Thêm mới</a>
-                <a href="{{ route('staff.trash') }}" class="mr-3 pl-2 pr-2 btn btn-danger" title="Thùng rác">
+                <a href="{{ route('permission.add') }}" class="btn btn-success mr-2">Thêm mới</a>
+                <a href="" class="mr-3 pl-2 pr-2 btn btn-danger" title="Thùng rác">
                     <i class="fa-regular fa-trash-can m-1"></i>
                 </a>
             </div>
@@ -19,51 +19,36 @@
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                    <form action="{{ route('staff.list') }}" method="get" id="filterForm">
+                    <form action="" method="get" id="filterForm">
                         <div class="row">
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="dataTable_length">
                                     <label>Show
                                         <select name="show_entries" aria-controls="dataTable"
                                                 class="custom-select custom-select-sm form-control form-control-sm"
                                                 id="entriesPerPage" onchange="submitForm()">
-                                            <option value="10" @if(request('show_entries') == 10) selected @endif>10</option>
-                                            <option value="25" @if(request('show_entries') == 25) selected @endif>25</option>
-                                            <option value="50" @if(request('show_entries') == 50) selected @endif>50</option>
-                                            <option value="100" @if(request('show_entries') == 100) selected @endif>100</option>
+                                            <option value="10" @if(request('show_entries') == 10) selected @endif>10
+                                            </option>
+                                            <option value="25" @if(request('show_entries') == 25) selected @endif>25
+                                            </option>
+                                            <option value="50" @if(request('show_entries') == 50) selected @endif>50
+                                            </option>
+                                            <option value="100" @if(request('show_entries') == 100) selected @endif>
+                                                100
+                                            </option>
                                         </select> entries
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-4">
-
-                                <div class="dataTables_length" id="dataTable_length">
-                                    <label>Status
-                                        <select name="status" aria-controls="dataTable"
-                                                class="custom-select custom-select-sm form-control"
-                                                onchange="submitForm()">
-                                            <option value="all"
-                                                    @if(!request()->has('status') || request('status') == 'all') selected @endif>
-                                                Tất cả
-                                            </option>
-                                            <option value="1" @if(request('status') == 1) selected @endif>Hoạt động
-                                            </option>
-                                            <option value="2" @if(request('status') == 2) selected @endif>Không hoạt
-                                                động
-                                            </option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-6">
                                 <form action="" method="get">
                                     <div id="dataTable_filter" class="dataTables_filter">
                                         <label>
-                                            Search (name or email):<input type="search" name="search"
-                                                                          value="{{ request('search') }}"
-                                                                          class="form-control form-control-sm"
-                                                                          placeholder=""
-                                                                          aria-controls="dataTable">
+                                            Search (name):<input type="search" name="search"
+                                                                 value="{{ request('search') }}"
+                                                                 class="form-control form-control-sm"
+                                                                 placeholder=""
+                                                                 aria-controls="dataTable">
                                             <button type="submit" class="btn btn-outline-success">Tìm kiếm</button>
                                         </label>
                                     </div>
@@ -88,16 +73,8 @@
                                         style="width: 146.2px;">Name
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Office: activate to sort column ascending" style="width: 141.2px;">
-                                        Email
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Age: activate to sort column ascending" style="width: 95.2px;">
-                                        Role
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-label="Start date: activate to sort column ascending"
-                                        style="width: 133.2px;">Status
+                                        style="width: 133.2px;">Guard Name
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-label="Salary: activate to sort column ascending" style="width: 120.2px;">
@@ -106,24 +83,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if(!empty($listStaff))
-                                    @foreach($listStaff as $key => $value)
+                                @if(!empty($permissions))
+                                    @foreach($permissions as $key => $value)
                                         <tr class="{{ ($key % 2 == 0) ? 'odd' : 'even' }}">
                                             <td class="sorting_1">{{ $key + 1 }}</td>
                                             <td>{{ $value->name }}</td>
-                                            <td>{{ $value->email }}</td>
-                                            <td>
-                                                @foreach($value->roles as $role)
-                                                    <span> + {{ $role->name }}</span> <br>
-                                                @endforeach
-                                            </td>
-                                            <td class="text-center">
-                                                <label class="switch">
-                                                    <input class="switch-status" data-item-id="{{ $value->id }}"
-                                                           type="checkbox" @if($value->status == 1) checked @endif>
-                                                    <span class="slider round "></span>
-                                                </label>
-                                            </td>
+                                            <td>{{ $value->guard_name }}</td>
                                             <td>
                                                 <div class="dropdown text-center">
                                                     <!-- Icon here (e.g., three dots icon) -->
@@ -134,10 +99,10 @@
                                                         <a class="dropdown-item"
                                                            href="">Chi tiết</a>
                                                         <a class="dropdown-item"
-                                                           href="{{ route('staff.edit',['id' => $value->id]) }}">Sửa</a>
+                                                           href="">Sửa</a>
                                                         <a class="dropdown-item show_confirm"
                                                            data-name="{{ $value->name }}"
-                                                           href="{{ route('staff.delete',['id' => $value->id]) }}">Xóa</a>
+                                                           href="">Xóa</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -151,14 +116,14 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
                             <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                Showing {{ $listStaff->firstItem() }} to {{ $listStaff->lastItem() }}
-                                of {{ $listStaff->total() }} entries
+                                Showing {{ $permissions->firstItem() }} to {{ $permissions->lastItem() }}
+                                of {{ $permissions->total() }} entries
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                                 <ul class="pagination">
-                                    {{ $listStaff->links('pagination::bootstrap-4') }}
+                                    {{ $permissions->links('pagination::bootstrap-4') }}
                                 </ul>
                             </div>
                         </div>
@@ -201,30 +166,6 @@
 
         alertConfirmation();
 
-        function updateStatus() {
-            $(document).ready(function () {
-                $('.switch-status').change(function () {
-                    const itemId = $(this).data('item-id');
-                    const status = this.checked ? 1 : 2;
-                    $.ajax({
-                        method: 'POST',
-                        url: '/admin/staff/update-status/' + itemId,
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            status: status
-                        },
-                        success: function (data) {
-                            // Xử lý phản hồi thành công (nếu cần)
-                        },
-                        error: function (error) {
-                            // Xử lý lỗi (nếu có)
-                        }
-                    });
-                });
-            });
-        }
-
-        updateStatus();
     </script>
 
 @endsection

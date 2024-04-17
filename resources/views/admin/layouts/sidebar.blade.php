@@ -38,11 +38,18 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('staff.list') }}" aria-expanded="true">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Staff</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoabc" aria-expanded="true" aria-controls="collapseTwoabc">
+            <i class="fa-solid fa-user"></i>
+            <span>Quản lý người dùng</span>
         </a>
-
+        <div id="collapseTwoabc" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('staff.list') }}">Danh sách nhân viên</a>
+                <a class="collapse-item" href="">Danh sách người dùng</a>
+                <a class="collapse-item" href="{{ route('role.list') }}">Quản lý vai trò</a>
+                <a class="collapse-item" href="{{ route('permission.list') }}">Quản lý quyền</a>
+            </div>
+        </div>
     </li>
 
     <!-- Divider -->

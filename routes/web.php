@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffController;
-
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +28,10 @@ Route::group(['prefix' => 'admin'], function () {
 
         // Auth
         Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+        Route::get('/profile/{id}', [AuthController::class, 'profile'])->name('admin.profile');
+        Route::post('/profilePost/{id}', [AuthController::class, 'profilePost'])->name('admin.profilePost');
+        Route::get('/settings/', [AuthController::class, 'settings'])->name('admin.settings');
+        Route::post('/settingsPost/{id}', [AuthController::class, 'settingsPost'])->name('admin.settingsPost');
 
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -43,7 +48,16 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/trash', [StaffController::class, 'trash'])->name('staff.trash');
             Route::get('/restore/{id}', [StaffController::class, 'restore'])->name('staff.restore');
             Route::get('/staff.permanently-deleted/{id}', [StaffController::class, 'permanentlyDeleted'])->name('staff.permanently-deleted');
+        });
 
+        // Role
+        Route::prefix('role')->group(function () {
+           Route::get('/list',[RoleController::class,'index'])->name('role.list');
+        });
+        // Permission
+        Route::prefix('permission')->group(function () {
+            Route::get('/list',[PermissionController::class,'index'])->name('permission.list');
+            Route::get('/add',[PermissionController::class,'create'])->name('permission.add');
         });
     });
     // Route admin không tồn tại sẽ bắn về view này
